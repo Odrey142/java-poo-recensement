@@ -62,8 +62,8 @@ public class Application {
 				rechercheVille.traiter(recensement, scanner);
 				break;
 			case 2:
+				RecherchePopulationDepartementService rechercheDept = new RecherchePopulationDepartementService();
 				try {
-					RecherchePopulationDepartementService rechercheDept = new RecherchePopulationDepartementService();
 					rechercheDept.traiter(recensement, scanner);
 					break;
 				} catch (BorneServiceException e1) {
@@ -74,8 +74,8 @@ public class Application {
 				rechercheRegion.traiter(recensement, scanner);
 				break;
 			case 4:
-				try {
-					RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
+				RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
+				try {	
 					recherchePopBorne.traiter(recensement, scanner);
 					break;
 				} catch (BorneServiceException e) {
