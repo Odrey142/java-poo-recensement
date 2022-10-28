@@ -1,8 +1,10 @@
 package fr.diginamic.recensement;
 
+import java.util.List;
 import java.util.Scanner;
 
 import fr.diginamic.recensement.entites.Recensement;
+import fr.diginamic.recensement.entites.Ville;
 import fr.diginamic.recensement.services.RechercheDepartementsPlusPeuplees;
 import fr.diginamic.recensement.services.RecherchePopulationBorneService;
 import fr.diginamic.recensement.services.RecherchePopulationDepartementService;
@@ -12,6 +14,7 @@ import fr.diginamic.recensement.services.RechercheRegionsPlusPeuplees;
 import fr.diginamic.recensement.services.RechercheVillesPlusPeupleesDepartement;
 import fr.diginamic.recensement.services.RechercheVillesPlusPeupleesFrance;
 import fr.diginamic.recensement.services.RechercheVillesPlusPeupleesRegion;
+import fr.diginamic.recensement.services.exception.BorneServiceException;
 import fr.diginamic.recensement.utils.RecensementUtils;
 
 /**
@@ -25,6 +28,7 @@ public class Application {
 	 * Point d'entrée
 	 * 
 	 * @param args arguments (non utilisés ici)
+	 * @throws BorneServiceException 
 	 */
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
@@ -36,6 +40,7 @@ public class Application {
 			System.out.println("L'application doit s'arrétée en raison d'une erreur d'exécution.");
 			System.exit(-1);
 		}
+		
 
 		// Menu
 		int choix = 0;
@@ -57,17 +62,25 @@ public class Application {
 				rechercheVille.traiter(recensement, scanner);
 				break;
 			case 2:
-				RecherchePopulationDepartementService rechercheDept = new RecherchePopulationDepartementService();
-				rechercheDept.traiter(recensement, scanner);
-				break;
+				try {
+					RecherchePopulationDepartementService rechercheDept = new RecherchePopulationDepartementService();
+					rechercheDept.traiter(recensement, scanner);
+					break;
+				} catch (BorneServiceException e1) {
+					System.err.println("erreur sur la saisie du département");
+				}
 			case 3:
 				RecherchePopulationRegionService rechercheRegion = new RecherchePopulationRegionService();
 				rechercheRegion.traiter(recensement, scanner);
 				break;
 			case 4:
-				RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
-				recherchePopBorne.traiter(recensement, scanner);
-				break;
+				try {
+					RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
+					recherchePopBorne.traiter(recensement, scanner);
+					break;
+				} catch (BorneServiceException e) {
+					System.err.println("Veuillez recommencer");
+				}
 			case 5:
 				RechercheVillesPlusPeupleesDepartement rechercheVillesPlusPeupleesDepartement = new RechercheVillesPlusPeupleesDepartement();
 				rechercheVillesPlusPeupleesDepartement.traiter(recensement, scanner);
